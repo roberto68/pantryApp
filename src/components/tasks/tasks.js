@@ -1,10 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import { notificationActions } from 'src/core/notification';
 import { tasksActions } from 'src/core/tasks';
-import { Notification } from './notification';
-import { TaskFilters } from './task-filters';
+import { ItemFilters } from './task-filters';
 import { TaskForm } from './task-form';
 import { TaskList } from './task-list';
 
@@ -13,9 +11,7 @@ export class Tasks extends Component {
   static propTypes = {
     createTask: PropTypes.func.isRequired,
     deleteTask: PropTypes.func.isRequired,
-    dismissNotification: PropTypes.func.isRequired,
     location: PropTypes.object.isRequired,
-    notification: PropTypes.object.isRequired,
     registerListeners: PropTypes.func.isRequired,
     tasks: PropTypes.array.isRequired,
     undeleteTask: PropTypes.func.isRequired,
@@ -26,28 +22,11 @@ export class Tasks extends Component {
     this.props.registerListeners();
   }
 
-  renderNotification() {
-    const {
-      dismissNotification,
-      notification,
-      undeleteTask
-    } = this.props;
-
-    return (
-      <Notification
-        action={undeleteTask}
-        dismiss={dismissNotification}
-        {...notification}
-      />
-    );
-  }
-
   render() {
     const {
       createTask,
       deleteTask,
       location,
-      notification,
       tasks,
       updateTask
     } = this.props;
@@ -59,9 +38,8 @@ export class Tasks extends Component {
         <div className="g-col">
           <TaskForm createTask={createTask} />
         </div>
-
         <div className="g-col">
-          <TaskFilters filter={filter} />
+          <ItemFilters filter={filter} />
           <TaskList
             deleteTask={deleteTask}
             filter={filter}
@@ -69,14 +47,11 @@ export class Tasks extends Component {
             updateTask={updateTask}
           />
         </div>
-
-        {notification.display ? this.renderNotification() : null}
       </div>
     );
   }
 }
 
 export default connect(state => ({
-  notification: state.notification,
   tasks: state.tasks.list
-}), Object.assign({}, tasksActions, notificationActions))(Tasks);
+}), Object.assign({}, tasksActions))(Tasks);

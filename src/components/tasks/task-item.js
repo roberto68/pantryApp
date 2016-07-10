@@ -4,7 +4,7 @@ import React, { Component, PropTypes } from 'react';
 
 export class TaskItem extends Component {
   static propTypes = {
-    deleteTask: PropTypes.func.isRequired,
+    selectItem: PropTypes.func.isRequired,
     task: PropTypes.object.isRequired,
     updateTask: PropTypes.func.isRequired
   };
@@ -90,7 +90,7 @@ export class TaskItem extends Component {
   render() {
     const { editing } = this.state;
     const { task } = this.props;
-
+    // buttons - 1st) mark as complete, 2nd) stop editing title, 3rd) edit, 4th) delete
     return (
       <div className={classNames('task-item', {'task-item--completed': task.completed, 'task-item--editing': editing})} tabIndex="0">
         <div className="cell">
@@ -106,11 +106,9 @@ export class TaskItem extends Component {
             </svg>
           </button>
         </div>
-
         <div className="cell">
           {editing ? this.renderTitleInput(task) : this.renderTitle(task)}
         </div>
-
         <div className="cell">
           <button
             aria-hidden={!editing}
@@ -139,12 +137,9 @@ export class TaskItem extends Component {
             aria-hidden={editing}
             aria-label="Delete task"
             className={classNames('task-item__button', {'hide': editing})}
-            onClick={this.delete}
+            onClick={this.select}
             ref={c => this.deleteButton = c}
             type="button">
-            <svg className="icon" width="24" height="24" viewBox="0 0 24 24">
-              <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"></path>
-            </svg>
           </button>
         </div>
       </div>
