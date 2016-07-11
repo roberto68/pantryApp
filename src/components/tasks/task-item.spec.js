@@ -13,7 +13,7 @@ describe('TaskItem', () => {
 
     taskItem = createTestComponent(TaskItem, {
       task,
-      deleteTask: sinon.spy(),
+      selectItem: sinon.spy(),
       updateTask: sinon.spy()
     });
   });
@@ -32,10 +32,10 @@ describe('TaskItem', () => {
 
   describe('Component methods:', () => {
     describe('#delete', () => {
-      it('should call #taskActions.deleteTask', () => {
+      it('should call #taskActions.selectItem', () => {
         taskItem.delete();
-        expect(taskItem.props.deleteTask.callCount).toEqual(1);
-        expect(taskItem.props.deleteTask.calledWith(taskItem.props.task)).toEqual(true);
+        expect(taskItem.props.selectItem.callCount).toEqual(1);
+        expect(taskItem.props.selectItem.calledWith(taskItem.props.task)).toEqual(true);
       });
     });
 

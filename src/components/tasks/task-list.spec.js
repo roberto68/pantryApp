@@ -18,7 +18,7 @@ describe('TaskList', () => {
 
     props = {
       tasks,
-      deleteTask: sinon.spy(),
+      selectItem: sinon.spy(),
       updateTask: sinon.spy()
     };
 

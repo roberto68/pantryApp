@@ -47,7 +47,7 @@ export class TaskForm extends Component {
           maxLength="64"
           onChange={this.onChange}
           onKeyUp={this.onKeyUp}
-          placeholder="Item to be stored?"
+          placeholder="Item to add to store"
           ref={c => this.titleInput = c}
           type="text"
           value={this.state.title}

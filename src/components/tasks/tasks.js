@@ -10,11 +10,11 @@ import { TaskList } from './task-list';
 export class Tasks extends Component {
   static propTypes = {
     createTask: PropTypes.func.isRequired,
-    deleteTask: PropTypes.func.isRequired,
+    selectItem: PropTypes.func.isRequired,
     location: PropTypes.object.isRequired,
     registerListeners: PropTypes.func.isRequired,
     tasks: PropTypes.array.isRequired,
-    undeleteTask: PropTypes.func.isRequired,
+    unselectItem: PropTypes.func.isRequired,
     updateTask: PropTypes.func.isRequired
   };
 
@@ -25,7 +25,7 @@ export class Tasks extends Component {
   render() {
     const {
       createTask,
-      deleteTask,
+      selectItem,
       location,
       tasks,
       updateTask
@@ -41,7 +41,7 @@ export class Tasks extends Component {
         <div className="g-col">
           <ItemFilters filter={filter} />
           <TaskList
-            deleteTask={deleteTask}
+            selectItem={selectItem}
             filter={filter}
             tasks={tasks}
             updateTask={updateTask}
@@ -54,4 +54,5 @@ export class Tasks extends Component {
 
 export default connect(state => ({
   tasks: state.tasks.list
-}), Object.assign({}, tasksActions))(Tasks);
+}),
+Object.assign({}, tasksActions))(Tasks);
