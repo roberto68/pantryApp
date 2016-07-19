@@ -1,30 +1,25 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { ReactiveDict } from 'meteor/reactive-dict';
+import { Router } from 'meteor/iron:router';
 
 import { Tasks } from '../api/tasks.js';
 
 import './task.js';
+import './user.js'; // neccessary ??
 import './body.html';
 
 Template.body.onCreated(function bodyOnCreated() {
   this.state = new ReactiveDict();
   Meteor.subscribe('tasks');
+  //Meteor.subscribe('tasks');
 });
 
 Template.body.helpers({
   tasks() {
-    const instance = Template.instance();
-    if (instance.state.get('hideCompleted')) {
-      // If hide completed is checked, filter tasks
-      return Tasks.find({ checked: { $ne: true } }, { sort: { createdAt: -1 } });
-    }
-    // Otherwise, return all of the tasks
-    return Tasks.find({}, { sort: { createdAt: -1 } });
-  },
-  incompleteCount() {
-    return Tasks.find({ checked: { $ne: true } }).count();
-  },
+    // const instance = Template.instance();
+    return Tasks.findAll({}, { sort: { createdAt: -1 } }); // findall ??
+  }
 });
 
 Template.body.events({
@@ -46,3 +41,8 @@ Template.body.events({
     instance.state.set('hideCompleted', event.target.checked);
   },
 });
+//Router.route('/', function () {
+//  this.render('home');
+//});
+Router.route('/login');
+Router.route('/register');

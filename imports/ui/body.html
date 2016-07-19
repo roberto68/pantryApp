@@ -1,26 +1,21 @@
 <body>
   <div class="container">
     <header>
-      <h1>Todo List ({{incompleteCount}})</h1>
-
-      <label class="hide-completed">
-        <input type="checkbox" />
-        Hide Completed Tasks
-      </label>
-
-      {{> loginButtons}}
-
-      {{#if currentUser}}
-        <form class="new-task">
-          <input type="text" name="text" placeholder="Type to add new tasks" />
-        </form>
-      {{/if}}
+        <ul>
+          {{#if currentUser}}
+              <li><a href="#" class="logout">Logout</a></li>
+          {{/if}}
+          <li><a href="{{pathFor route='register'}}">Register</a></li>
+          <li><a href="{{pathFor route='login'}}">Login</a></li>
+        </ul>
+      <h1>Pantry app</h1>
     </header>
-
-    <ul>
-      {{#each tasks}}
-        {{> task}}
-      {{/each}}
-    </ul>
+    <div class="row">
+      <ul>
+        {{#each tasks}}
+          {{> task}}
+        {{/each}}
+      </ul>
+    </div>
   </div>
 </body>
