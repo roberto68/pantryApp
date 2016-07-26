@@ -5,11 +5,13 @@ import {
 import {
   CREATE_TASK_SUCCESS,
   DELETE_TASK_SUCCESS,
-  UPDATE_TASK_SUCCESS
+  UPDATE_TASK_SUCCESS,
+  TOGGLE
 } from './action-types';
 
 
 export const initialState = {
+  selected: false,
   deleted: null,
   list: [],
   previous: []
@@ -50,6 +52,14 @@ export function tasksReducer(state = initialState, action) {
         deleted: null,
         list: [],
         previous: []
+      };
+
+    case TOGGLE:
+      return {
+        ...state,
+        selected: state.list.map(task => {
+          return !task.selected; // toglujem zmenu
+        })
       };
 
     default:

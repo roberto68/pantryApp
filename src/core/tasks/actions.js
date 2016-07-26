@@ -3,10 +3,15 @@ import {
   CREATE_TASK_SUCCESS,
   DELETE_TASK_ERROR,
   DELETE_TASK_SUCCESS,
-  UPDATE_TASK_ERROR,
-  UPDATE_TASK_SUCCESS
+  TOGGLE
 } from './action-types';
 
+export function toggleSeleted(index) {
+  return {
+    type: TOGGLE,
+    payload: index
+  };
+}
 
 export function createTask(title) {
   return (dispatch, getState) => {
@@ -24,16 +29,15 @@ export function createTask(title) {
       });
   };
 }
-
-
-export function deleteTask(task) {
+// doplnit do db kto(auth.id) co pridal, zobral
+export function deleteItem(task) {
   return (dispatch, getState) => {
     const { auth, firebase } = getState();
-
+    // ceknut priradovanie: ako je v orgininali index(client)-key(server)
     firebase.child(`tasks/${auth.id}/${task.key}`)
       .remove(error => {
         if (error) {
-          console.error('ERROR @ deleteTask :', error); // eslint-disable-line no-console
+          console.error('ERROR @ deleteItem :', error); // eslint-disable-line no-console
           dispatch({
             type: DELETE_TASK_ERROR,
             payload: error
@@ -43,40 +47,6 @@ export function deleteTask(task) {
   };
 }
 
-
-export function undeleteTask() {
-  return (dispatch, getState) => {
-    const { auth, firebase, tasks } = getState();
-    const task = tasks.deleted;
-
-    firebase.child(`tasks/${auth.id}/${task.key}`)
-      .set({completed: task.completed, title: task.title}, error => {
-        if (error) {
-          console.error('ERROR @ undeleteTask :', error); // eslint-disable-line no-console
-        }
-      });
-  };
-}
-
-
-export function updateTask(task, changes) {
-  return (dispatch, getState) => {
-    const { auth, firebase } = getState();
-
-    firebase.child(`tasks/${auth.id}/${task.key}`)
-      .update(changes, error => {
-        if (error) {
-          console.error('ERROR @ updateTask :', error); // eslint-disable-line no-console
-          dispatch({
-            type: UPDATE_TASK_ERROR,
-            payload: error
-          });
-        }
-      });
-  };
-}
-
-
 export function registerListeners() {
   return (dispatch, getState) => {
     const { auth, firebase } = getState();
@@ -84,11 +54,6 @@ export function registerListeners() {
 
     ref.on('child_added', snapshot => dispatch({
       type: CREATE_TASK_SUCCESS,
-      payload: recordFromSnapshot(snapshot)
-    }));
-
-    ref.on('child_changed', snapshot => dispatch({
-      type: UPDATE_TASK_SUCCESS,
       payload: recordFromSnapshot(snapshot)
     }));
 

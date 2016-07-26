@@ -2,7 +2,6 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import { tasksActions } from 'src/core/tasks';
-import { ItemFilters } from './task-filters';
 import { TaskForm } from './task-form';
 import { TaskList } from './task-list';
 
@@ -10,28 +9,29 @@ import { TaskList } from './task-list';
 export class Tasks extends Component {
   static propTypes = {
     createTask: PropTypes.func.isRequired,
-    selectItem: PropTypes.func.isRequired,
-    location: PropTypes.object.isRequired,
-    registerListeners: PropTypes.func.isRequired,
     tasks: PropTypes.array.isRequired,
-    unselectItem: PropTypes.func.isRequired,
-    updateTask: PropTypes.func.isRequired
   };
+  constructor(props, context){
+    super(props, context);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
 
-  componentWillMount() {
-    this.props.registerListeners();
+  handleSubmit(e, selected) {
+    e.preventDefault();
+    deleteItem(selected);
   }
 
   render() {
     const {
       createTask,
-      selectItem,
-      location,
-      tasks,
-      updateTask
+      tasks
     } = this.props;
 
-    const { filter } = location.query;
+    const selected = (tasks) => {
+      tasks.filter((task) => {
+      return task.selected === true ? task : null; //je to dobre ??
+      });
+    }
 
     return (
       <div className="g-row">
@@ -39,20 +39,14 @@ export class Tasks extends Component {
           <TaskForm createTask={createTask} />
         </div>
         <div className="g-col">
-          <ItemFilters filter={filter} />
-          <TaskList
-            selectItem={selectItem}
-            filter={filter}
-            tasks={tasks}
-            updateTask={updateTask}
-          />
+          <TaskList tasks={tasks} />
+        </div>
+        <div>
+          <button type="submit" onClick={handleSubmit(selected)}>pick selected from store</button>
         </div>
       </div>
     );
   }
 }
 
-export default connect(state => ({
-  tasks: state.tasks.list
-}),
-Object.assign({}, tasksActions))(Tasks);
+export default connect(state => ({tasks: state.tasks.list}), Object.assign({}, tasksActions))(Tasks);

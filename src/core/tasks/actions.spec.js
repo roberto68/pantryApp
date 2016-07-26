@@ -9,7 +9,7 @@ import {
 
 import {
   createTask,
-  deleteTask,
+  deleteItem,
   updateTask,
   registerListeners
 } from './actions';
@@ -39,7 +39,7 @@ describe('Tasks actions', () => {
   });
 
 
-  describe('deleteTask', () => {
+  describe('deleteItem', () => {
     it('should create DELETE_TASK_SUCCESS', done => {
       const auth = {id: '123'};
       const firebase = new MockFirebase();
@@ -57,7 +57,7 @@ describe('Tasks actions', () => {
       }, expectedActions, [thunk], done);
 
       store.dispatch(registerListeners());
-      store.dispatch(deleteTask(task));
+      store.dispatch(deleteItem(task));
 
       firebase.flush();
     });
