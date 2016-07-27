@@ -3,7 +3,8 @@ import {
   CREATE_TASK_SUCCESS,
   DELETE_TASK_ERROR,
   DELETE_TASK_SUCCESS,
-  TOGGLE
+  TOGGLE,
+  ADD_TO_HISTORY
 } from './action-types';
 
 export function toggleSeleted(index) {
@@ -29,12 +30,12 @@ export function createTask(title) {
       });
   };
 }
-// doplnit do db kto(auth.id) co pridal, zobral
+
 export function deleteItem(task) {
   return (dispatch, getState) => {
     const { auth, firebase } = getState();
-    // ceknut priradovanie: ako je v orgininali index(client)-key(server)
-    firebase.child(`tasks/${auth.id}/${task.key}`)
+
+    firebase.child(`tasks/${auth.id}/${task.key}`) // removing item
       .remove(error => {
         if (error) {
           console.error('ERROR @ deleteItem :', error); // eslint-disable-line no-console
@@ -42,6 +43,17 @@ export function deleteItem(task) {
             type: DELETE_TASK_ERROR,
             payload: error
           });
+        }
+      });
+      // add person to auth
+    firebase.child(`history/${auth.id}/${task.key}`) // adding to history who take what item
+      .push({title: task.title, id: auth.id}, error => {
+        if (error) {
+          console.error('ERROR @ deleteItem :', error); // eslint-disable-line no-console
+          // dispatch({
+          //   type: ADD_TO_HISTORY,
+          //   payload: error
+          // });
         }
       });
   };

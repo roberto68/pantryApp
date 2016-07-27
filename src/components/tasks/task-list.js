@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react';
-import { tasksActions } from 'src/core/tasks';
 
 export class TaskList extends Component {
   static propTypes = {
-    tasks: PropTypes.array.isRequired
+    tasks: PropTypes.array.isRequired,
+    toggleSelected: PropTypes.func.isRequired
   };
 
   renderTask() {

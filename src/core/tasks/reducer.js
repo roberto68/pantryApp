@@ -34,7 +34,7 @@ export function tasksReducer(state = initialState, action) {
         deleted: action.payload,
         list: state.list.filter(task => {
           return task.key !== action.payload.key;
-        }),
+        }), // task isn't in the list anymore = is deleted
         previous: [ ...state.list ]
       };
 

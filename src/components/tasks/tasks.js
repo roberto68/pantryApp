@@ -1,7 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import { tasksActions } from 'src/core/tasks';
+import { tasksActions } from 'src/core/tasks/index';
+// import { deleteItem, createTask, toggleSelected } from 'src/core/tasks/actions';
 import { TaskForm } from './task-form';
 import { TaskList } from './task-list';
 
@@ -9,12 +10,14 @@ import { TaskList } from './task-list';
 export class Tasks extends Component {
   static propTypes = {
     createTask: PropTypes.func.isRequired,
-    tasks: PropTypes.array.isRequired,
+    toggleSelected: PropTypes.func.isRequired,
+    deleteItem: PropTypes.func.isRequired,
+    tasks: PropTypes.array.isRequired
   };
-  constructor(props, context){
-    super(props, context);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
+  // constructor(props, context){
+  //   super(props, context);
+  //   this.handleSubmit = this.handleSubmit.bind(this);
+  // }
 
   handleSubmit(e, selected) {
     e.preventDefault();
@@ -22,6 +25,7 @@ export class Tasks extends Component {
   }
 
   render() {
+    console.log(tasks);
     const {
       createTask,
       tasks
@@ -39,14 +43,15 @@ export class Tasks extends Component {
           <TaskForm createTask={createTask} />
         </div>
         <div className="g-col">
-          <TaskList tasks={tasks} />
+          <TaskList tasks={tasks} toggleSelected={toggleSelected} />
         </div>
         <div>
-          <button type="submit" onClick={handleSubmit(selected)}>pick selected from store</button>
+          <button type="submit" onClick={(e) => this.handleSubmit(e, selected)}>pick items from store</button>
         </div>
       </div>
     );
   }
 }
 
-export default connect(state => ({tasks: state.tasks.list}), Object.assign({}, tasksActions))(Tasks);
+export default connect(state => ({tasks: state.tasks.list}), Object.assign({}, {deleteItem, createTask, toggleSelected }))(Tasks);
+export default connect(state => ({tasks: state.tasks.list}), Object.assign({}, {tasksActions}))(Tasks);
