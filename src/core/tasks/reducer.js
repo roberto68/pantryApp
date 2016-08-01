@@ -31,6 +31,7 @@ export function tasksReducer(state = initialState, action) {
 
     case DELETE_TASK_SUCCESS:
       return {
+        selected: state.list.map(task => task.selected),
         deleted: action.payload,
         list: state.list.filter(task => {
           return task.key !== action.payload.key;
@@ -40,6 +41,7 @@ export function tasksReducer(state = initialState, action) {
 
     case UPDATE_TASK_SUCCESS:
       return {
+        selected: state.list.map(task => task.selected),
         deleted: null,
         list: state.list.map(task => {
           return task.key === action.payload.key ? action.payload : task;
@@ -49,6 +51,7 @@ export function tasksReducer(state = initialState, action) {
 
     case SIGN_OUT_SUCCESS:
       return {
+        selected: state.list.map(task => task.selected),
         deleted: null,
         list: [],
         previous: []

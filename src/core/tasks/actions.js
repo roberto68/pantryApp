@@ -3,17 +3,16 @@ import {
   CREATE_TASK_SUCCESS,
   DELETE_TASK_ERROR,
   DELETE_TASK_SUCCESS,
-  TOGGLE,
-  ADD_TO_HISTORY
+  TOGGLE
 } from './action-types';
 
-export function toggleSeleted(index) {
+export function toggleSelected(index) {
   return {
     type: TOGGLE,
     payload: index
   };
 }
-
+// este bych chel nacitat z db
 export function createTask(title) {
   return (dispatch, getState) => {
     const { auth, firebase } = getState();
@@ -31,9 +30,12 @@ export function createTask(title) {
   };
 }
 
-export function deleteItem(task) {
+export function deleteItem(task) { //
   return (dispatch, getState) => {
     const { auth, firebase } = getState();
+    const title = task.title;
+    // const key = task.key;
+    console.log(task); // nacitat zo state kt. je toggled
 
     firebase.child(`tasks/${auth.id}/${task.key}`) // removing item
       .remove(error => {
@@ -45,9 +47,9 @@ export function deleteItem(task) {
           });
         }
       });
-      // add person to auth
-    firebase.child(`history/${auth.id}/${task.key}`) // adding to history who take what item
-      .push({title: task.title, id: auth.id}, error => {
+    // history is undefined ??
+    firebase.child(`register/${auth.id}`)
+      .push({title, id: auth.id}, error => {
         if (error) {
           console.error('ERROR @ deleteItem :', error); // eslint-disable-line no-console
           // dispatch({
@@ -63,16 +65,26 @@ export function registerListeners() {
   return (dispatch, getState) => {
     const { auth, firebase } = getState();
     const ref = firebase.child(`tasks/${auth.id}`);
+    // const refRec = firebase.child(`history/${auth.id}`); // history
 
-    ref.on('child_added', snapshot => dispatch({
-      type: CREATE_TASK_SUCCESS,
-      payload: recordFromSnapshot(snapshot)
-    }));
+    ref.on('child_added', snapshot => {
+      console.log(snapshot.val());
+      console.log("dpc");
+      dispatch({
+        type: CREATE_TASK_SUCCESS,
+        payload: recordFromSnapshot(snapshot)
+      });
+    }
+  );
 
-    ref.on('child_removed', snapshot => dispatch({
-      type: DELETE_TASK_SUCCESS,
-      payload: recordFromSnapshot(snapshot)
-    }));
+    ref.on('child_removed', snapshot => {
+      dispatch({
+        type: DELETE_TASK_SUCCESS,
+        payload: recordFromSnapshot(snapshot)
+      });
+      // console.log(snapshot.val());
+    }
+   );
   };
 }
 
