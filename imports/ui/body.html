@@ -3,16 +3,16 @@
     <header>
       <h1>Todo List ({{incompleteCount}})</h1>
 
-      <label class="hide-completed">
+      <!-- <label class="hide-completed">
         <input type="checkbox" />
         Hide Completed Tasks
-      </label>
+      </label> -->
 
       {{> loginButtons}}
 
       {{#if currentUser}}
         <form class="new-task">
-          <input type="text" name="text" placeholder="Type to add new tasks" />
+          <input type="text" name="text" placeholder="Type to add new item"/>
         </form>
       {{/if}}
     </header>
@@ -22,5 +22,6 @@
         {{> task}}
       {{/each}}
     </ul>
+    <button type="submit" id="submit" class="submit-selected">submit selected</button>
   </div>
 </body>

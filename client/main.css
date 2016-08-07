@@ -20,7 +20,7 @@ body {
 .container {
   max-width: 600px;
   margin: 0 auto;
-  min-height: 100%;
+  min-height: 90%;
   background: white;
 }
 
@@ -109,6 +109,11 @@ header .hide-completed {
 .toggle-private {
   margin-left: 5px;
 }
+
+/*button .container {
+  position: absolute;
+  left: 50%;
+} /* preco to necentruje ?? */
 
 @media (max-width: 600px) {
   li {

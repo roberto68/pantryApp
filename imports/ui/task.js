@@ -14,10 +14,4 @@ Template.task.events({
     // Set the checked property to the opposite of its current value
     Meteor.call('tasks.setChecked', this._id, !this.checked);
   },
-  'click .delete'() {
-    Meteor.call('tasks.remove', this._id);
-  },
-  'click .toggle-private'() {
-    Meteor.call('tasks.setPrivate', this._id, !this.private);
-  },
 });
