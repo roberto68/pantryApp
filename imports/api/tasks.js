@@ -8,7 +8,7 @@ export const History = new Mongo.Collection('history');
 if (Meteor.isServer) {
   // This code only runs on the server
   Meteor.publish('tasks', function tasksPublication() {
-    return Tasks.find();
+    return Tasks.find(); // pick taskId on the client
   });
 }
 

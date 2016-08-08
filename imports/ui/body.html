@@ -1,7 +1,7 @@
 <body>
   <div class="container">
     <header>
-      <h1>Todo List ({{incompleteCount}})</h1>
+      <h1>Todo List</h1>
       {{> loginButtons}}
       {{#if currentUser}}
         <form class="new-task">
@@ -9,12 +9,14 @@
         </form>
       {{/if}}
     </header>
-    
+
     <ul>
-      {{#each tasks}}
-        {{> task}}
-        <!-- here add the radio button and pair it to task - pass it task id, how ?? -->
+      {{#each tasks ItemId=prop$getTaskId}}
+        {{> task ItemId}}
       {{/each}}
+      <!-- {{#each radio ItemId=prop$getTaskId}}
+        {{> radio ItemId}}
+      {{/each}} -->
     </ul>
     <button type="submit" id="submit" class="submit-selected">submit selected</button>
   </div>
