@@ -29,9 +29,10 @@ Meteor.methods({
 
   'tasks.remove'() { // kt. su checked / na radio button iba 1)
     //check(user.Id, String);
-    const tasks = Tasks.find({checked: true}); //musim zozbierat id tych co som cekol !!!
-    Tasks.remove(tasks);
-    console.trace();
+    Tasks.find({checked: true}).forEach(doc => {
+      Tasks.remove(doc._id);
+    });
+    // console.trace();
 
     // History.insert({
     //   username: Meteor.users.findOne(this.userId).username,
