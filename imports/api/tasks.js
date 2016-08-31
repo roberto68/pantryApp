@@ -10,6 +10,9 @@ if (Meteor.isServer) {
   Meteor.publish('tasks', function tasksPublication() {
     return Tasks.find();
   });
+  Meteor.publish('history', function tasksPublication() {
+    return History.find(); 
+  });
 }
 
 Meteor.methods({
@@ -27,17 +30,15 @@ Meteor.methods({
     });
   },
 
-  'tasks.remove'() { // kt. su checked / na radio button iba 1)
+  'tasks.remove'(userId) { // kt. su checked / na radio button iba 1)
     //check(user.Id, String);
     Tasks.find({checked: true}).forEach(doc => {
-      Tasks.remove(doc._id);
+      Tasks.remove(doc._id); // remove from tasks;
+      History.insert({  // log who took the item(s)
+        username: Meteor.users.findOne(this.userId).username,
+        task: doc._text
+      });
     });
-    // console.trace();
-
-    // History.insert({
-    //   username: Meteor.users.findOne(this.userId).username,
-    //   task: task
-    // });
   },
 
   'tasks.setChecked'(taskId, setChecked) {

@@ -10,20 +10,13 @@ import './body.html';
 Template.body.onCreated(function bodyOnCreated() {
   this.state = new ReactiveDict();
   Meteor.subscribe('tasks');
+  Meteor.subscribe('history');
 });
 
 Template.body.helpers({
   tasks() {
-    const instance = Template.instance();
-    if (instance.state.get('hideCompleted')) {
-      // If hide completed is checked, filter tasks
-      return Tasks.find({ checked: { $ne: true } }, { sort: { createdAt: -1 } });
-    }
-    // Otherwise, return all of the tasks
+    console.log (Tasks.find({}, { sort: { createdAt: -1 } }));
     return Tasks.find({}, { sort: { createdAt: -1 } });
-  },
-  incompleteCount() {
-    return Tasks.find({ checked: { $ne: true } }).count();
   },
 });
 
@@ -43,7 +36,6 @@ Template.body.events({
   },
   'click #submit': (event) => {
     event.preventDefault();
-    Meteor.call('tasks.remove'); // take Id from login, filter checked tasks
-    // Meteor.call('tasks.remove', Meteor.userId()); //who take an item
+    Meteor.call('tasks.remove', Meteor.userId()); // take Id from login, filter checked tasks
   },
 });
