@@ -32,12 +32,11 @@ Meteor.methods({
     Tasks.find({checked: true}).forEach(doc => {
       Tasks.remove(doc._id);
     });
-    // console.trace();
 
-    // History.insert({
-    //   username: Meteor.users.findOne(this.userId).username,
-    //   task: task
-    // });
+     History.insert({
+       username: Meteor.users.findOne(this.userId).username,
+       task: task
+     });
   },
 
   'tasks.setChecked'(taskId, setChecked) {

@@ -11,12 +11,12 @@
     </header>
 
     <ul>
-      {{#each tasks ItemId=prop$getTaskId}}
-        {{> task ItemId}}
+      {{#each tasks}}
+        {{> task ItemId=prop$getTaskId}}
       {{/each}}
-      <!-- {{#each radio ItemId=prop$getTaskId}}
-        {{> radio ItemId}}
-      {{/each}} -->
+      {{#each radio }}
+        {{> radio ItemId=prop$getTaskId}}
+      {{/each}}
     </ul>
     <button type="submit" id="submit" class="submit-selected">submit selected</button>
   </div>

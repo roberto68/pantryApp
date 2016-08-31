@@ -1,7 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { ReactiveDict } from 'meteor/reactive-dict';
-
 import { Tasks } from '../api/tasks.js';
 
 import './task.js';
@@ -17,7 +16,8 @@ Template.body.helpers({
     return Tasks.find({}, { sort: { createdAt: -1 } });
   },
   getTaskId() {
-     return { id: Tasks.find({}, { _id: 1 }) };
+     console.log (Tasks.find({}, { _id: 1 })); //only get the task Id
+     return Tasks.find({}, { _id: 1 }); // sort it same as tasks
    }
  });
 
@@ -38,6 +38,6 @@ Template.body.events({
   'click #submit': (event) => {
     event.preventDefault();
     Meteor.call('tasks.remove'); // take Id from login, filter checked tasks
-    // Meteor.call('tasks.remove', Meteor.userId()); //who take an item
+    // Meteor.call('tasks.remove', Meteor.userId(), text);
   },
 });
