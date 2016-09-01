@@ -1,12 +1,12 @@
 <template name="task">
   <li class="{{#if checked}}checked{{/if}}">
     <input type="checkbox" checked="{{checked}}" class="toggle-checked" />
-    <span class="text"><strong>{{username}}</strong> - {{text}}, {{id}}</span>
+    <span class="text"><strong>{{username}}</strong> - {{text}}, {{getId}}</span>
   </li>
 </template>
 
 <template name="radio">
   <li class="{{#if checked}}checked{{/if}}">
-    <input type="radio" class="toggle-checked" />
+    <input type="radio" class="toggle-checked" {{getId}}/>
   </li>
 </template>

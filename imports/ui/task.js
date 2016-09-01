@@ -4,8 +4,9 @@ import { Template } from 'meteor/templating';
 import './task.html';
 
 Template.task.helpers({
-  isOwner() {
-    return this.owner === Meteor.userId();
+  getId() {
+    var props = Template.instance().props;
+    return props.ItemId().id;
   },
 });
 

@@ -17,7 +17,7 @@ Template.body.helpers({
   },
   getTaskId() {
      console.log (Tasks.find({}, { _id: 1 })); //only get the task Id
-     return Tasks.find({}, { _id: 1 }); // sort it same as tasks
+     return { id: Tasks.findOne({}, { _id: 1 }); // sort it same as tasks
    }
  });
 
@@ -28,12 +28,10 @@ Template.body.events({
     const target = event.target;
     const text = target.text.value;
     // Insert a task into the collection
-    Meteor.call('tasks.insert', text, Meteor.userId());
+    Meteor.call('tasks.insert', text);
+    // Meteor.call('tasks.insert', text, Meteor.userId());
     // Clear form
     target.text.value = '';
-  },
-  'change .hide-completed input'(event, instance) {
-    instance.state.set('hideCompleted', event.target.checked);
   },
   'click #submit': (event) => {
     event.preventDefault();
